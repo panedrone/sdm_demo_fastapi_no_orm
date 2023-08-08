@@ -6,6 +6,8 @@ Front-end is written in Vue.js. SQLite3 is used as a database.
 
 ![demo-go.png](demo-go.png)
 
+![erd.png](erd.png)
+
 dto.xml
 
 ```xml
