@@ -134,7 +134,7 @@ class _DS(DataStore):
 
     def commit(self):
         if self.engine_type == self.EngineType.sqlite3:
-            self.conn.execute('commit')  # sqlite3
+            self.conn.execute('commit')
             return
         self.conn.commit()
 
