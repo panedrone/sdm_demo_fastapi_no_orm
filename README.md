@@ -1,4 +1,4 @@
-# sdm_demo_fastapi_sqlalchemy
+# sdm_demo_fastapi_no_orm
 
 Quick Demo of how to use [SQL DAL Maker](https://github.com/panedrone/sqldalmaker) + Python/FastAPI/no-ORM scenario.
 
