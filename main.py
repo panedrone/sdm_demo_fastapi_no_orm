@@ -16,8 +16,8 @@ from dbal.task import Task
 from dbal.tasks_dao import TasksDao
 from schemas import *
 
-app = FastAPI(title="SDM + FastAPI + SQLAlchemy",
-              description="Quick Demo of how to use SQL DAL Maker + Python + FastAPI + SQLAlchemy",
+app = FastAPI(title="SDM + Python/FastAPI/no-ORM-scenario",
+              description="Quick Demo of how to use SQL DAL Maker + Python/FastAPI/no-ORM-scenario",
               version="1.0.0", )
 
 # https://stackoverflow.com/questions/65916537/a-minimal-fastapi-example-loading-index-html

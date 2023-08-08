@@ -73,8 +73,8 @@ from dbal.project import Project
 from dbal.projects_dao import ProjectsDao
 from schemas import *
 
-app = FastAPI(title="SDM + FastAPI + SQLAlchemy",
-              description="Quick Demo of how to use SQL DAL Maker + Python + FastAPI + SQLAlchemy",
+app = FastAPI(title="SDM + Python/FastAPI/no-ORM-scenario",
+              description="Quick Demo of how to use SQL DAL Maker + Python/FastAPI/no-ORM-scenario",
               version="1.0.0", )
 
 
