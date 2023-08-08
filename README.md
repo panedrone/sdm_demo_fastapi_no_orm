@@ -1,6 +1,6 @@
 # sdm_demo_fastapi_no_orm_scenario
 
-Quick Demo of how to use [SQL DAL Maker](https://github.com/panedrone/sqldalmaker) + Python/FastAPI/no-ORM scenario.
+Quick Demo of how to use [SQL DAL Maker](https://github.com/panedrone/sqldalmaker) + Python/FastAPI/no-ORM-scenario.
 
 Front-end is written in Vue.js. SQLite3 is used as a database.
 
