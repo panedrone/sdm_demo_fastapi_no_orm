@@ -1,10 +1,8 @@
 # sdm_demo_fastapi_sqlalchemy
 
-Quick Demo of how to use [SQL DAL Maker](https://github.com/panedrone/sqldalmaker) + Python/FastAPI/sqlite3.
+Quick Demo of how to use [SQL DAL Maker](https://github.com/panedrone/sqldalmaker) + Python/FastAPI/no-ORM scenario.
 
-The library sqlite3 is used with "no-ORM" scenario. 
-
-Front-end is written in Vue.js.
+Front-end is written in Vue.js. SQLite3 is used as a database.
 
 ![demo-go.png](demo-go.png)
 
