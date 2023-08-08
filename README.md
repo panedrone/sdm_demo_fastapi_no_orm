@@ -31,12 +31,7 @@ ProjectsDao.xml
 
 <dao-class>
 
-    <crud dto="Project">
-        <create/>
-        <read/>
-        <update/>
-        <delete/>
-    </crud>
+    <crud dto="Project"/>
 
     <query-dto-list dto="ProjectLi" method="get_projects"/>
 
@@ -49,11 +44,7 @@ TasksDao.xml
 
 <dao-class>
 
-    <crud dto="Task">
-        <create/>
-        <read/>
-        <delete/>
-    </crud>
+    <crud dto="Task"/>
 
     <query-dto-list dto="TaskLi" method="get_project_tasks(p_id)"/>
 
