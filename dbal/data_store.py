@@ -3,7 +3,6 @@
     It demonstrates how to implement an interface DataStore in Python + sqlite3|psycopg2|mysql|cx_oracle.
     More about DataStore: https://sqldalmaker.sourceforge.net/preconfig.html#ds
     Recent version: https://github.com/panedrone/sqldalmaker/blob/master/src/resources/data_store.py
-    Copy-paste it to your project and change it for your needs.
 
     Successfully tested with:
 
@@ -11,7 +10,9 @@
     - psycopg2 ------------------ pip install psycopg2
     - mysql.connector ----------- pip install mysql-connector-python
 
+    Copy-paste it to your project and change it for your needs.
     Improvements are welcome: sqldalmaker@gmail.com
+    Demo project: https://github.com/panedrone/sdm_demo_fastapi_no_orm_scenario
 
 """
 
