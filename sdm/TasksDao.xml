@@ -5,11 +5,10 @@
     <crud dto="Task">
         <create/>
         <read/>
+        <update/>
         <delete/>
     </crud>
 
     <query-dto-list dto="TaskLi" method="get_project_tasks(p_id)"/>
-    
-    <exec-dml ref="task_update.sql" method="update_task(t_priority, t_date, t_subject, t_comments, t_id)"/>
 
 </dao-class>

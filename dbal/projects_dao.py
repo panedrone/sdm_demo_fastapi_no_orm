@@ -32,6 +32,7 @@ class ProjectsDao:
         :return: None on success or error string
         """
         sql = """select * from projects where p_id=?"""
+
         row = self.ds.query_row(sql, [p_id])
         if isinstance(row, str):
             return row
@@ -45,6 +46,7 @@ class ProjectsDao:
         :return: int (the number of affected rows)
         """
         sql = """update projects set p_name=? where p_id=?"""
+
         return self.ds.exec_dml(sql, [p.p_name, p.p_id])
 
     def delete_project(self, p_id):
@@ -54,6 +56,7 @@ class ProjectsDao:
         :return: int (the number of affected rows)
         """
         sql = """delete from projects where p_id=?"""
+
         return self.ds.exec_dml(sql, [p_id])
 
     def get_projects(self):
@@ -75,4 +78,5 @@ class ProjectsDao:
             _res.append(_obj)
 
         self.ds.query_all_rows(sql, [], _map_cb)
+
         return _res

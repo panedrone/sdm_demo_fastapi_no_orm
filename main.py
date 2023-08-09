@@ -110,7 +110,9 @@ def task_read(t_id: int, ds: DataStore = Depends(get_ds)):
 @app.put('/api/tasks/{t_id}', tags=["Task"])
 async def task_update(t_id: int, item_request: SchemaTaskEdit, ds: DataStore = Depends(get_ds)):
     j = jsonable_encoder(item_request)
-    TasksDao(ds).update_task(j['t_priority'], j['t_date'], j['t_subject'], j['t_comments'], j['t_id'])
+    t = Task()
+    t.__dict__ = j
+    TasksDao(ds).update_task(t)
     ds.commit()
 
 

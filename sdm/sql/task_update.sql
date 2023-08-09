@@ -1,1 +1,0 @@
-update tasks set t_priority=?, t_date=?, t_subject=?, t_comments=? where t_id=?

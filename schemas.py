@@ -60,6 +60,7 @@ class SchemaTaskCreate(_SchemaTaskBase):
 
 class SchemaTaskEdit(_SchemaTaskBase):
     t_id: int
+    p_id: int
     t_priority: int
     t_date: str
     t_comments: str

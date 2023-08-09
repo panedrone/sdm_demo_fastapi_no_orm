@@ -32,6 +32,7 @@ class TasksDao:
         :return: None on success or error string
         """
         sql = """select * from tasks where t_id=?"""
+
         row = self.ds.query_row(sql, [t_id])
         if isinstance(row, str):
             return row
@@ -42,6 +43,16 @@ class TasksDao:
         obj.t_subject = row["t_subject"]  # t <- t
         obj.t_comments = row["t_comments"]  # t <- t
 
+    def update_task(self, p):
+        """
+        CR(U)D: tasks
+        :param p: Task
+        :return: int (the number of affected rows)
+        """
+        sql = """update tasks set p_id=?, t_priority=?, t_date=?, t_subject=?, t_comments=? where t_id=?"""
+
+        return self.ds.exec_dml(sql, [p.p_id, p.t_priority, p.t_date, p.t_subject, p.t_comments, p.t_id])
+
     def delete_task(self, t_id):
         """
         CRU(D): tasks
@@ -49,6 +60,7 @@ class TasksDao:
         :return: int (the number of affected rows)
         """
         sql = """delete from tasks where t_id=?"""
+
         return self.ds.exec_dml(sql, [t_id])
 
     def get_project_tasks(self, p_id):
@@ -71,16 +83,5 @@ class TasksDao:
             _res.append(_obj)
 
         self.ds.query_all_rows(sql, [p_id], _map_cb)
-        return _res
 
-    def update_task(self, t_priority, t_date, t_subject, t_comments, t_id):
-        """
-        :param t_priority: str
-        :param t_date: str
-        :param t_subject: str
-        :param t_comments: str
-        :param t_id: str
-        :return: int (the number of affected rows)
-        """
-        sql = """update tasks set t_priority=?, t_date=?, t_subject=?, t_comments=? where t_id=?"""
-        return self.ds.exec_dml(sql, [t_priority, t_date, t_subject, t_comments, t_id])
+        return _res
