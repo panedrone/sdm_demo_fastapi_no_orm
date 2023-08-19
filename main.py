@@ -56,8 +56,8 @@ def get_all_projects(ds: DataStore = Depends(get_ds)):
 async def project_create(item_request: SchemaProjectCreateUpdate, ds: DataStore = Depends(get_ds)):
     project = Project()
     project.p_name = item_request.p_name
-    ProjectsDao(ds).create_project(project)
-    ds.commit()
+    ProjectsDao(ds).create_project(project)  # sets "in_transaction" to True
+    ds.commit()  # sets "in_transaction" to False
 
 
 @app.get('/api/projects/{p_id}', tags=["Project"], response_model=SchemaProject)

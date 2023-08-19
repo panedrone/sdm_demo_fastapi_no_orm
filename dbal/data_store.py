@@ -17,10 +17,6 @@
 
 """
 
-import sqlite3
-# import psycopg2
-# import mysql.connector
-
 
 class OutParam:
     def __init__(self):
@@ -29,10 +25,7 @@ class OutParam:
 
 class DataStore:
 
-    def open(self):
-        pass
-
-    def close(self):
+    def in_transaction(self) -> bool:
         pass
 
     def begin(self):
@@ -97,8 +90,8 @@ class DataStore:
         pass
 
 
-def create_ds() -> DataStore:
-    return _DS()
+def create_ds(conn) -> DataStore:
+    return _DS(conn)
 
 
 class _DS(DataStore):
@@ -107,28 +100,35 @@ class _DS(DataStore):
         mysql = 2
         postgresql = 3
 
-    def __init__(self):
-        self.conn = None
-        self.engine_type = None
+    def __init__(self, conn):
 
-    def open(self):
-        self.conn = sqlite3.connect('./todolist.sqlite', check_same_thread=False)
-        self.engine_type = self.EngineType.sqlite3
+        # conn = sqlite3.connect('./todolist.sqlite', check_same_thread=False)
+        # conn = mysql.connector.Connect(user='root', password='sa', host='127.0.0.1', database='todolist')
+        # conn = psycopg2.connect(host="localhost", database="todolist", user="postgres", password="sa")
 
-        # self.conn = mysql.connector.Connect(user='root', password='sa', host='127.0.0.1', database='todolist')
-        # self.engine_type = self.EngineType.mysql
+        self.conn = conn
 
-        # self.conn = psycopg2.connect(host="localhost", database="my-tests", user="postgres", password="sa")
-        # self.engine_type = self.EngineType.postgresql
+        conn_module = type(self.conn).__module__.lower()
 
-    def close(self):
-        if self.conn:
-            self.conn.close()
-            self.conn = None
+        if 'sqlite' in conn_module:
+            self.engine_type = self.EngineType.sqlite3
+            return
+        if 'mysql' in conn_module:
+            self.engine_type = self.EngineType.mysql
+            return
+        if 'psycopg' in conn_module:
+            self.engine_type = self.EngineType.postgresql
+            return
+
+        raise Exception(f"Unknown: {conn_module}")
+
+    def in_transaction(self) -> bool:
+        return self.conn.in_transaction
 
     def begin(self):
         if self.engine_type == self.EngineType.sqlite3:
             self.conn.execute('begin')
+            # self.conn.begin()  #  'sqlite3.Connection' object has no attribute 'begin'"
             return
         if self.engine_type == self.EngineType.mysql:
             self.conn.start_transaction()
@@ -136,19 +136,18 @@ class _DS(DataStore):
         if self.engine_type == self.EngineType.postgresql:
             self.conn.begin()
             return
-        raise Exception(f"Unknown engine_type: {self.engine_type}")
+
+        raise Exception(f"Unknown: {self.engine_type}")
 
     def commit(self):
-        if self.engine_type == self.EngineType.sqlite3:
-            self.conn.execute('commit')
-            return
-        self.conn.commit()
+        # PEP 249 – Python Database API Specification v2.0
+        # https://peps.python.org/pep-0249/
+        self.conn.commit()  # sqlite3: unlike self.conn.execute('commit'), it sets "self.conn.in_transaction" to False
 
     def rollback(self):
-        if self.engine_type == self.EngineType.sqlite3:
-            self.conn.execute("rollback")
-            return
-        self.conn.rollback()
+        # PEP 249 – Python Database API Specification v2.0
+        # https://peps.python.org/pep-0249/
+        self.conn.rollback()  # sqlite3: unlike self.conn.execute('rollback'), it sets "self.conn.in_transaction" to False
 
     def insert_row(self, sql, params, ai_values):
         sql = self._format_sql(sql)
