@@ -8,6 +8,8 @@ from dbal.data_store import create_ds, DataStore
 # https://docs.python.org/3/library/sqlite3.html
 conn = sqlite3.connect('./todolist.sqlite', check_same_thread=False)  # , isolation_level=None)
 
+# === panedrone: no "conn.autocommit" in sqlite3, but it behaves like conn.autocommit = False
+# conn.autocommit = False
 
 # https://stackoverflow.com/questions/15856976/transactions-with-python-sqlite3
 # conn.isolation_level = None
