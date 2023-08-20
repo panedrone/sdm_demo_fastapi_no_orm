@@ -18,6 +18,33 @@
 """
 
 
+# =========== Example of usage:
+#
+# import psycopg2
+#
+# # import sqlite3
+# # import mysql.connector
+# from dbal.data_store import create_ds, DataStore
+#
+# conn = psycopg2.connect(host="127.0.0.1", database="my_tests", user="postgres", password="sa")
+# # https://pynative.com/python-mysql-transaction-management-using-commit-rollback/
+# conn.autocommit = False
+#
+#
+# # Dependency
+# def get_ds() -> DataStore:
+#     ds = create_ds(conn)
+#     try:
+#         yield ds
+#     except Exception as e:
+#         ds.rollback()
+#         raise e
+#
+#
+# @app.get('/api/projects', tags=["ProjectList"], response_model=List[SchemaProjectLi])
+# def get_all_projects(ds: DataStore = Depends(get_ds)):
+#     return ProjectsDao(ds).get_projects()
+
 class OutParam:
     def __init__(self):
         self.value = None
@@ -123,7 +150,11 @@ class _DS(DataStore):
         raise Exception(f"Unknown: {conn_module}")
 
     def in_transaction(self) -> bool:
-        return self.conn.in_transaction
+        if self.engine_type == self.EngineType.postgresql:
+            raise Exception(f"No 'self.conn.in_transaction' in psycopg2")
+        if isinstance(self.conn.in_transaction, int):  # mysql
+            return self.conn.in_transaction != 0
+        return self.conn.in_transaction  # sqlite
 
     def begin(self):
         if self.engine_type == self.EngineType.sqlite3:
@@ -134,20 +165,19 @@ class _DS(DataStore):
             self.conn.start_transaction()
             return
         if self.engine_type == self.EngineType.postgresql:
-            self.conn.begin()
-            return
+            raise Exception(f"No 'self.conn.begin()' in psycopg2")
 
         raise Exception(f"Unknown: {self.engine_type}")
 
     def commit(self):
         # PEP 249 – Python Database API Specification v2.0
         # https://peps.python.org/pep-0249/
-        self.conn.commit()  # sqlite3: unlike self.conn.execute('commit'), it sets "self.conn.in_transaction" to False
+        self.conn.commit()
 
     def rollback(self):
         # PEP 249 – Python Database API Specification v2.0
         # https://peps.python.org/pep-0249/
-        self.conn.rollback()  # sqlite3: unlike self.conn.execute('rollback'), it sets "self.conn.in_transaction" to False
+        self.conn.rollback()
 
     def insert_row(self, sql, params, ai_values):
         sql = self._format_sql(sql)
