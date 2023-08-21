@@ -22,12 +22,9 @@
 #
 # import psycopg2
 #
-# # import sqlite3
-# # import mysql.connector
 # from dbal.data_store import create_ds, DataStore
 #
 # conn = psycopg2.connect(host="127.0.0.1", database="my_tests", user="postgres", password="sa")
-# # https://pynative.com/python-mysql-transaction-management-using-commit-rollback/
 # conn.autocommit = False
 #
 #

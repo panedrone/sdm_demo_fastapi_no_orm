@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from starlette.responses import FileResponse
 from starlette.staticfiles import StaticFiles
 
-from db import get_ds
+from dbal.db import get_ds
 from dbal.data_store import DataStore
 from dbal.project import Project
 from dbal.projects_dao import ProjectsDao

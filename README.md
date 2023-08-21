@@ -58,7 +58,7 @@ Generated code in action:
 ```python
 from typing import List
 from fastapi import Depends, FastAPI
-from db import get_ds
+from dbal.db import get_ds
 from dbal.data_store import DataStore
 from dbal.project import Project
 from dbal.projects_dao import ProjectsDao
