@@ -5,19 +5,19 @@ import uvicorn
 from fastapi import Depends, FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from starlette.responses import FileResponse
+from starlette.responses import FileResponse, PlainTextResponse
 from starlette.staticfiles import StaticFiles
 
-from dbal.db import get_ds
 from dbal.data_store import DataStore
+from dbal.db import get_ds
 from dbal.project import Project
 from dbal.projects_dao import ProjectsDao
 from dbal.task import Task
 from dbal.tasks_dao import TasksDao
 from schemas import *
 
-app = FastAPI(title="SDM + Python/FastAPI/no-ORM-scenario",
-              description="Quick Demo of how to use SQL DAL Maker + Python/FastAPI/no-ORM-scenario",
+app = FastAPI(title="SDM + FastAPI, no-ORM, SQLite3",
+              description="Quick Demo of how to use SQL DAL Maker + FastAPI, no-ORM, SQLite3",
               version="1.0.0", )
 
 # https://stackoverflow.com/questions/65916537/a-minimal-fastapi-example-loading-index-html
@@ -47,8 +47,14 @@ async def add_process_time_header(request, call_next):
     return response
 
 
+# https://fastapi.tiangolo.com/advanced/custom-response/
+@app.get('/api/whoiam', tags=["whoiam"], response_class=PlainTextResponse)
+def whoiam():
+    return f"FastAPI, no-ORM, SQLite3"
+
+
 @app.get('/api/projects', tags=["ProjectList"], response_model=List[SchemaProjectLi])
-def get_all_projects(ds: DataStore = Depends(get_ds)):
+def projects_get_all(ds: DataStore = Depends(get_ds)):
     return ProjectsDao(ds).get_projects()
 
 

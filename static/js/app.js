@@ -31,6 +31,7 @@ new Vue({
                 .then(async (resp) => {
                     if (resp.status === 200) {
                         this.whoiam = await resp.text()
+                        document.title = "TODO: " + this.whoiam
                     } else {
                         let j = await resp.text()
                         console.log(resp.status + "\n" + j);
@@ -243,7 +244,7 @@ new Vue({
     updated() {
     },
     mounted() { // https://codepen.io/g2g/pen/mdyeoXB
-        // this.askWhoIAm();
+        this.askWhoIAm();
         this.renderGroups();
     },
 })
