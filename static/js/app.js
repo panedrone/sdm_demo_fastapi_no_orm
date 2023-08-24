@@ -45,7 +45,7 @@ new Vue({
             fetch("api/projects")
                 .then(async (resp) => {
                     if (resp.status === 200) {
-                        this.$data.projects = await resp.json()
+                        this.projects = await resp.json()
                     } else {
                         let j = await resp.text()
                         alert(resp.status + "\n" + j);
@@ -65,7 +65,7 @@ new Vue({
             fetch("api/projects/" + p_id)
                 .then(async (resp) => {
                     if (resp.status === 200) {
-                        this.$data.current_project = await resp.json()
+                        this.current_project = await resp.json()
                     } else {
                         let j = await resp.text()
                         alert(resp.status + "\n" + j);
@@ -79,7 +79,7 @@ new Vue({
             fetch("api/projects/" + p_id + "/tasks")
                 .then(async (resp) => {
                     if (resp.status === 200) {
-                        this.$data.tasks = await resp.json()
+                        this.tasks = await resp.json()
                     } else {
                         let j = await resp.text()
                         alert(resp.status + "\n" + j);
@@ -94,9 +94,9 @@ new Vue({
                 .then(async (resp) => {
                     if (resp.status === 200) {
                         let task = await resp.json()
-                        this.$data.current_subject = task.t_subject;
-                        this.$data.current_task = task;
-                        this.$data.task_error = null;
+                        this.current_subject = task.t_subject;
+                        this.current_task = task;
+                        this.task_error = null;
                         this.task_details = true
                     } else {
                         let j = await resp.text()
@@ -108,7 +108,7 @@ new Vue({
                 })
         },
         groupCreate() {
-            let json = JSON.stringify({"p_name": this.$data.p_name})
+            let json = JSON.stringify({"p_name": this.p_name})
             fetch("api/projects", {
                 method: 'post',
                 headers: JSON_HEADERS,
@@ -127,8 +127,8 @@ new Vue({
                 })
         },
         groupUpdate() {
-            let p_id = this.$data.current_project.p_id
-            let json = JSON.stringify(this.$data.current_project)
+            let p_id = this.current_project.p_id
+            let json = JSON.stringify(this.current_project)
             fetch("api/projects/" + p_id, {
                 method: 'put',
                 headers: JSON_HEADERS,
@@ -147,7 +147,7 @@ new Vue({
                 })
         },
         groupDelete() {
-            let p_id = this.$data.current_project.p_id
+            let p_id = this.current_project.p_id
             fetch("api/projects/" + p_id, {
                 method: 'delete'
             })
@@ -166,8 +166,8 @@ new Vue({
                 })
         },
         taskCreate() {
-            let p_id = this.$data.current_project.p_id
-            let json = JSON.stringify({"t_subject": this.$data.t_subject})
+            let p_id = this.current_project.p_id
+            let json = JSON.stringify({"t_subject": this.t_subject})
             fetch("api/projects/" + p_id + "/tasks", {
                 method: 'post',
                 headers: JSON_HEADERS,
@@ -187,12 +187,12 @@ new Vue({
                 })
         },
         taskUpdate() {
-            if (!isNaN(this.$data.current_task.t_priority)) {
-                this.$data.current_task.t_priority = parseInt(this.$data.current_task.t_priority);
+            if (!isNaN(this.current_task.t_priority)) {
+                this.current_task.t_priority = parseInt(this.current_task.t_priority);
             }
-            let json = JSON.stringify(this.$data.current_task)
-            let p_id = this.$data.current_project.p_id
-            let t_id = this.$data.current_task.t_id
+            let json = JSON.stringify(this.current_task)
+            let p_id = this.current_project.p_id
+            let t_id = this.current_task.t_id
             fetch("api/tasks/" + t_id, {
                 method: 'put',
                 headers: JSON_HEADERS,
@@ -204,7 +204,7 @@ new Vue({
                         this.renderTaskDetails(t_id);
                     } else {
                         let text = await resp.text()
-                        this.$data.task_error = (resp.status + "\n" + text);
+                        this.task_error = (resp.status + "\n" + text);
                     }
                 })
                 .catch((reason) => {
@@ -212,8 +212,8 @@ new Vue({
                 })
         },
         taskDelete() {
-            let p_id = this.$data.current_project.p_id
-            let t_id = this.$data.current_task.t_id
+            let p_id = this.current_project.p_id
+            let t_id = this.current_task.t_id
             fetch("api/tasks/" + t_id, {
                 method: "delete"
             })
