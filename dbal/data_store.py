@@ -22,9 +22,12 @@
 #
 # import psycopg2
 #
+# # import sqlite3
+# # import mysql.connector
 # from dbal.data_store import create_ds, DataStore
 #
 # conn = psycopg2.connect(host="127.0.0.1", database="my_tests", user="postgres", password="sa")
+# # https://pynative.com/python-mysql-transaction-management-using-commit-rollback/
 # conn.autocommit = False
 #
 #
@@ -167,12 +170,12 @@ class _DS(DataStore):
         raise Exception(f"Unknown: {self.engine_type}")
 
     def commit(self):
-        # PEP 249 – Python Database API Specification v2.0
+        # PEP 249 Python Database API Specification v2.0
         # https://peps.python.org/pep-0249/
         self.conn.commit()
 
     def rollback(self):
-        # PEP 249 – Python Database API Specification v2.0
+        # PEP 249 Python Database API Specification v2.0
         # https://peps.python.org/pep-0249/
         self.conn.rollback()
 
