@@ -1,15 +1,15 @@
-Quick Demo of how to use [SQL DAL Maker](https://github.com/panedrone/sqldalmaker) + Python, FastAPI, and
+A project demonstrating how to use [SQL DAL Maker](https://github.com/panedrone/sqldalmaker) + Python, FastAPI, and
 no-ORM-scenario.
 
 Front-end is written in Vue.js. SQLite3 is used as a database.
 
 ![demo-go.png](demo-go.png)
 
-dto.xml
+sdm.xml
 
 ```xml
 
-<dto-classes>
+<sdm>
 
     <dto-class name="Project" ref="projects"/>
 
@@ -19,35 +19,33 @@ dto.xml
 
     <dto-class name="TaskLi" ref="get_project_tasks.sql"/>
 
-</dto-classes>
-```
+    <dao-class name="ProjectsDao">
 
-ProjectsDao.xml
+        <crud dto="Project">
+            <create/>
+            <read/>
+            <update/>
+            <delete/>
+        </crud>
 
-```xml
+        <query-dto-list dto="ProjectLi" method="get_projects"/>
 
-<dao-class>
+    </dao-class>
 
-    <crud dto="Project"/>
+    <dao-class name="TasksDao">
 
-    <query-dto-list dto="ProjectLi" method="get_projects"/>
+        <crud dto="Task">
+            <create/>
+            <read/>
+            <update/>
+            <delete/>
+        </crud>
 
-</dao-class>
-```
+        <query-dto-list dto="TaskLi" method="get_project_tasks(p_id)"/>
 
-TasksDao.xml
+    </dao-class>
 
-```xml
-
-<dao-class>
-
-    <crud dto="Task"/>
-
-    <query-dto-list dto="TaskLi" method="get_project_tasks(p_id)"/>
-
-    <exec-dml ref="task_update.sql" method="update_task(t_priority, t_date, t_subject, t_comments, t_id)"/>
-
-</dao-class>
+</sdm>
 ```
 
 Generated code in action:
