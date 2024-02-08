@@ -3,7 +3,7 @@
 A project demonstrating how to use [SQL DAL Maker](https://github.com/panedrone/sqldalmaker) + Python, FastAPI, and
 no-ORM-scenario.
 
-Front-end is written in Vue.js 2.7. SQLite3 is used as a database.
+Front-end is written in Vue.js 2.7. RDBMS is SQLite3.
 
 ![demo-go.png](demo-go.png)
 
