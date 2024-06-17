@@ -50,7 +50,7 @@ async def add_process_time_header(request, call_next):
 # https://fastapi.tiangolo.com/advanced/custom-response/
 @app.get('/api/whoiam', tags=["whoiam"], response_class=PlainTextResponse)
 def whoiam():
-    return f"FastAPI, no-ORM, SQLite3"
+    return f"fastapi, no-orm, sqlite3"
 
 
 @app.get('/api/projects', tags=["ProjectList"], response_model=List[SchemaProjectLi])

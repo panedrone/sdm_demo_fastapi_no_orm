@@ -1,11 +1,9 @@
-# sdm_todolist_fastapi_no_orm
-
 A project demonstrating how to use [SQL DAL Maker](https://github.com/panedrone/sqldalmaker) + Python, FastAPI, and
 no-ORM-scenario.
 
 Front-end is written in Vue.js 2.7. RDBMS is SQLite3.
 
-![demo-go.png](demo-go.png)
+![sdm-todo-app.png](sdm-todo-app.png)
 
 sdm.xml
 
