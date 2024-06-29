@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
 
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="static/styles.css" type="text/css"/>
-    <title>TODO</title>
+    <link rel="stylesheet" href="/static/styles.css" type="text/css"/>
+    <title>TODO: FastAPI,no-ORM,Oracle</title>
 </head>
 
 <body>
 
 <div id="app" v-cloak>
+
     <table class="bg">
         <tr>
             <td>
                 <div class="card">
                     <h2>
-                        {{ whoiam }}<span v-if="is_sqlx">, <a href="/swagger/index.html">Swagger</a></span>
+                        ${ whoiam }
                     </h2>
                 </div>
             </td>
@@ -24,37 +25,40 @@
         <tr>
             <td>
                 <div class="red-banner">
+                    <!--                    <server_error></server_error>-->
                 </div>
             </td>
         </tr>
     </table>
-    <table class="bg">
+
+    <table class="bg" style="padding: 4px;">
         <tr>
             <td>
                 <div class="card">
-                    <table>
-                        <tr>
-                            <td>
-                                <table class="section">
-                                    <tr>
-                                        <th>Project</th>
-                                        <th>Tasks Count</th>
-                                    </tr>
-                                    <tr v-for="project in projects">
-                                        <td>
-                                            <a href="#" @click="renderProjectDetails(project.p_id)">
-                                                {{ project.p_name }}
-                                            </a>
-                                        </td>
-                                        <td style="text-align: center;width: 80px;">
-                                            {{ project.p_tasks_count }}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <table class="section">
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Tasks Count</th>
+                                </tr>
+                                <tr v-for="project in projects">
+                                    <td>
+                                        <a href="#" @click="renderGroupDetails(project.p_id)">
+                                            ${ project.p_name }
+                                        </a>
+                                    </td>
+                                    <td style="text-align: center;width: 80px;">
+                                        ${ project.p_tasks_count }
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form method="post" enctype="multipart/form-data">
                                 <table class="controls">
                                     <tr>
                                         <td>
@@ -63,15 +67,16 @@
                                             </label>
                                         </td>
                                         <td class="w1">
-                                            <a href="#" @click="projectCreate()">
+                                            <a href="#" @click="groupCreate()">
                                                 <input type="button" value="+"/>
                                             </a>
                                         </td>
                                     </tr>
                                 </table>
-                            </td>
-                        </tr>
-                    </table>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
                 </div>
             </td>
             <td v-if="project_details">
@@ -79,31 +84,33 @@
                     <table>
                         <tr>
                             <td>
-                                <table class="controls">
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                <input type="text" class="project-header"
-                                                       v-model="current_project.p_name"/>
-                                            </label>
-                                        </td>
-                                        <td class="w1">
-                                            <a href="#" @click="projectUpdate()">
-                                                <input type="button" value="&#x2713;"/>
-                                            </a>
-                                        </td>
-                                        <td class="w1">
-                                            <a href="#" @click="projectDelete()">
-                                                <input type="button" value="x"/>
-                                            </a>
-                                        </td>
-                                        <td class="w1">
-                                            <a href="#" @click="hideProjectDetails()">
-                                                <input type="button" value="&lt;"/>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
+                                <form method="post">
+                                    <table class="controls">
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    <input type="text" class="group-header"
+                                                           v-model="current_project.p_name"/>
+                                                </label>
+                                            </td>
+                                            <td class="w1">
+                                                <a href="#" @click="groupUpdate()">
+                                                    <input type="button" value="&#x2713;"/>
+                                                </a>
+                                            </td>
+                                            <td class="w1">
+                                                <a href="#" @click="groupDelete()">
+                                                    <input type="button" value="x"/>
+                                                </a>
+                                            </td>
+                                            <td class="w1">
+                                                <a href="#" @click="hideProjectDetails">
+                                                    <input type="button" value="&lt;"/>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
                             </td>
                         </tr>
                         <tr>
@@ -116,15 +123,16 @@
                                     </tr>
                                     <tr v-for="t in tasks">
                                         <td>
-                                            {{ t.t_date }}
+                                            ${ t.t_date }
                                         </td>
                                         <td>
                                             <a href="#" @click="renderTaskDetails(t.t_id)">
-                                                {{ t.t_subject }}
+                                                ${ t.t_subject }
                                             </a>
                                         </td>
+
                                         <td style="text-align: center;">
-                                            {{ t.t_priority }}
+                                            ${ t.t_priority }
                                         </td>
                                     </tr>
                                 </table>
@@ -132,20 +140,22 @@
                         </tr>
                         <tr>
                             <td>
-                                <table class="controls">
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                <input type="text" v-model="t_subject"/>
-                                            </label>
-                                        </td>
-                                        <td class="w1">
-                                            <a href="#" @click="taskCreate()">
-                                                <input type="button" value="+"/>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
+                                <form method="post">
+                                    <table class="controls">
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    <input type="text" v-model="t_subject"/>
+                                                </label>
+                                            </td>
+                                            <td class="w1">
+                                                <a href="#" @click="taskCreate()">
+                                                    <input type="button" value="+"/>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
                             </td>
                         </tr>
                     </table>
@@ -154,7 +164,7 @@
             <td v-if="task_details">
                 <div class="card">
                     <div class="title" id="subj">
-                        {{ current_subject }}
+                        ${ current_subject }
                     </div>
                     <table>
                         <tr>
@@ -213,7 +223,7 @@
                         </tr>
                     </table>
                     <div style="color: crimson;max-width: 310px;">
-                        {{ task_error }}
+                        ${ task_error }
                     </div>
                 </div>
             </td>
@@ -221,10 +231,7 @@
     </table>
 </div>
 
-<!--https://v2.vuejs.org/v2/guide/-->
-
-<script src="/static/js/vue@2.dist.js"></script>
-
+<script src="/static/js/vue.js"></script>
 <script src="/static/js/app.js"></script>
 
 </body>
